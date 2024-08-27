@@ -44,13 +44,13 @@ class OrderBookGUI(QMainWindow):
         self.order_id_counter = 1
 
         # Initialize the list of financial symbols
-        stocks = []
+        stock_symbols = []
         f = open('symbols.txt', 'r')
         for line in f:
-            stocks.append(line.strip())
+            stock_symbols.append(line.strip())
         f.close()
 
-        self.symbols = stocks
+        self.symbols = stock_symbols
         # Fetch the current prices for the symbols
         self.current_prices = fetch_current_prices(self.symbols)
 
