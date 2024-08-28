@@ -9,7 +9,11 @@ from order import Order
 order_book = OrderBook()
 
 # Sample data for symbols
-symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA']
+symbols = []
+f = open('symbols.txt', 'r')
+for line in f:
+    symbols.append(line.strip())
+f.close()
 current_prices = fetch_current_prices(symbols)
 
 # Streamlit app layout
