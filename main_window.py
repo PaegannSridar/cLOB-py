@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QLabel,
                              QPushButton, QWidget, QTreeWidget, QTreeWidgetItem, QLineEdit,
-                             QComboBox, QSpinBox, QMessageBox, QSplitter, QDialog, QToolBar, QAction)
+                             QComboBox, QSpinBox, QMessageBox, QSplitter, QDialog, QToolBar, QAction, QTabWidget)
 from PyQt5.QtCore import Qt, QTimer, QMutex, QMutexLocker
 from order import Order
 from order_book import OrderBook, fetch_current_prices, generate_realistic_order
@@ -44,12 +44,15 @@ class OrderBookGUI(QMainWindow):
         self.order_id_counter = 1
 
         # Initialize the list of financial symbols
+        stocks = []
         stock_symbols = []
         f = open('symbols.txt', 'r')
         for line in f:
+            stocks.append(line.strip())
             stock_symbols.append(line.strip())
         f.close()
 
+        self.symbols = stocks
         self.symbols = stock_symbols
         # Fetch the current prices for the symbols
         self.current_prices = fetch_current_prices(self.symbols)
@@ -199,7 +202,7 @@ class OrderBookGUI(QMainWindow):
     def create_treeview(self, label):
         tree = QTreeWidget()
         tree.setColumnCount(4)  # Add an extra column for execution time
-        tree.setHeaderLabels([label, "Orders", "Qty", "Exec Time"])
+        tree.setHeaderLabels([label, "Orders", "Symbols", "Qty", "Exec Time"])
         return tree
 
     def create_filter_layout(self, layout):
@@ -436,7 +439,7 @@ class OrderBookGUI(QMainWindow):
     def update_tree(self, tree, orders):
         tree.clear()
         for order in orders:
-            item = QTreeWidgetItem([str(order.price), str(len(orders)), str(order.quantity), f"{order.execution_time:.4f} s" if order.execution_time else "N/A"])
+            item = QTreeWidgetItem([str(order.price), str(len(orders)), str(order.symbol), str(order.quantity), f"{order.execution_time:.4f} s" if order.execution_time else "N/A"])
             tree.addTopLevelItem(item)
 
     def update_stock_info(self):
@@ -521,5 +524,6 @@ if __name__ == "__main__":
 
     # Start the event loop and run the application
     sys.exit(app.exec_())
+
 
 
