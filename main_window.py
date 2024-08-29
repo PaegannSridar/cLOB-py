@@ -56,6 +56,7 @@ class OrderBookGUI(QMainWindow):
         self.symbols = stock_symbols
         # Fetch the current prices for the symbols
         self.current_prices = fetch_current_prices(self.symbols)
+        print(self.current_prices)
 
         # Initialize the mutex for thread synchronization
         self.mutex = QMutex()
@@ -349,7 +350,7 @@ class OrderBookGUI(QMainWindow):
             else:
                 # Log a message for each matched order
                 for buy, sell, qty in matched:
-                    logging.info(f"Matched {qty} units between buy order {buy.order_id} and sell order {sell.order_id}")
+                    logging.info(f"Matched {qty} units in {buy.symbol} between buy order id {buy.order_id} and sell order id {sell.order_id}")
 
             # Update the GUI
             self.update_gui()
