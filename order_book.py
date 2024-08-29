@@ -4,8 +4,11 @@ import logging
 import random
 from collections import deque
 from typing import Dict, List, Tuple, Union
+import pandas as pd
 from order import Order
 from user import User
+import yfinance as yf
+
 
 class OrderBook:
     def __init__(self):
@@ -138,12 +141,13 @@ class OrderBook:
 
         # Continue matching orders until there are no more buy or sell orders,
         # or the best buy order's price is greater than the best sell order's price
-        while self.buy_orders and self.sell_orders and -self.buy_orders[0][0] >= self.sell_orders[0][0]:
+        i=0
+        while self.buy_orders and self.sell_orders and self.buy_orders[0][0] >= self.sell_orders[0][0]:
             # Print a message for each iteration
             print("Matching orders...")
 
             # Get the first buy and sell orders
-            buy_price, _, buy_order = self.buy_orders[0]
+            buy_price, _, buy_order = self.buy_orders[i]
             sell_price, _, sell_order = self.sell_orders[0]
 
             # Calculate the quantity to match between the buy and sell orders
@@ -199,11 +203,15 @@ class OrderBook:
             # Print a message for each iteration
             print("Orders matched.")
 
+            i=i+1
+
+
         # Print a completion message
         print("Order matching completed.")
 
         # Return the list of matched orders
         return matched
+
 
     def get_order_book(self) -> Dict[str, List[Order]]:
         """
@@ -284,10 +292,12 @@ def fetch_current_prices(symbols):
     Returns:
         dict: A dictionary mapping each symbol to its current price, which is a random float between 100 and 500.
     """
+
     prices = {}
     for symbol in symbols:
         prices[symbol] = random.uniform(100, 500)
     return prices
+
 
 def generate_realistic_order(order_id, symbol, current_price):
     """
