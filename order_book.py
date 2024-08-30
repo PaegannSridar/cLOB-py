@@ -193,8 +193,8 @@ class OrderBook:
 
             # Log the match
             logging.info(
-                f"Matched {matched_quantity} units between buy order {buy_order.order_id}"
-                f" and sell order {sell_order.order_id}"
+                f"Matched {matched_quantity} units in {buy_order.symbol} between buy order id {buy_order.order_id}"
+                f" and sell order id {sell_order.order_id} at price {sell_price}"
             )
 
             # Add the matched order to the list of matched orders
