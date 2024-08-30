@@ -350,7 +350,7 @@ class OrderBookGUI(QMainWindow):
             else:
                 # Log a message for each matched order
                 for buy, sell, qty in matched:
-                    logging.info(f"Matched {qty} units in {buy.symbol} between buy order id {buy.order_id} and sell order id {sell.order_id}")
+                    logging.info(f"Matched {qty} units in {buy.symbol} between buy order id {buy.order_id} and sell order id {sell.order_id} at price {sell.price}")
 
             # Update the GUI
             self.update_gui()
